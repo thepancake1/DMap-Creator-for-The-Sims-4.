@@ -14,39 +14,71 @@ namespace ConsoleApplication8
             var path = @"C:\Program Files\Blender Foundation\Blender\peteriscute.txt";
             var pathTxtBytes = File.ReadAllText(path);
 
-            Dictionary<int, Vector2> DictionaryOfUVCoords = new Dictionary<int, Vector2>;
-            int currentPos = 0;
+            Dictionary<int, Vector2> DictionaryOfUVCoords = new Dictionary<int, Vector2>();
+            int currentPos = 1;
+            int Index = 0;
+            string UVCoordsX = System.String.Empty, UVCoordsY = System.String.Empty;
+            int lastByteIndex = 90000;
             for (int i = 0; i < pathTxtBytes.Length; i++)
             {
-                int Index = 0;
-                string UVCoordsX = System.String.Empty, UVCoordsY = System.String.Empty;
 
+                Console.WriteLine(pathTxtBytes[i]);
                 if(pathTxtBytes[i] == ',')
                 {
+                    
                     currentPos++;
-                    if(DictionaryOfUVCoords[Index] == null)
+                    if(DictionaryOfUVCoords.ContainsKey(Index) == false)
                     {
-                        DictionaryOfUVCoords.Add(Index, new Vector2(Convert.ToDouble(UVCoordsX), Convert.ToDouble(UVCoordsY)));
+                        //Console.WriteLine(i - lastByteIndex);
+                       
+                        if (currentPos % 3 == 0 && (i - lastByteIndex) == 10)
+                        {
+                            //Console.WriteLine("Index for Dictionary is " + Index);
+                            //DictionaryOfUVCoords.Add(Index, new Vector2(Convert.ToDouble(UVCoordsX), Convert.ToDouble(UVCoordsY)));
+                            //Console.WriteLine("Adding numbers");
+                        }
                     }
                 }
-                if (currentPos == 0 || currentPos % 3 == 1)
+                else if (currentPos == 1 || currentPos % 3 == 3)
                 {
-                    Index = (Convert.ToInt16(pathTxtBytes[i]));
+                    Index = pathTxtBytes[i];
+                    //Console.WriteLine("Vertex index is " + Index);
+                    //Console.WriteLine("Index is " + i);
+
                 }
-                else if(currentPos == 1 || currentPos % 3 == 2)
+                else if(currentPos == 2 || currentPos % 3 == 2)
                 {
                     UVCoordsX += pathTxtBytes[i];
+                    //Console.WriteLine(UVCoordsX);
+
+                    lastByteIndex = i;
+                   // Console.WriteLine("Index is " + i);
+
 
                 }
 
-                else if (currentPos == 2 || currentPos % 3 == 3)
+                else if (currentPos % 3 == 1)
                 {
                     UVCoordsY += pathTxtBytes[i];
+                    //Console.WriteLine(i - lastByteIndex);
+
+                    //Console.WriteLine(UVCoordsY);
+
+                   // Console.WriteLine("Index is " + i);
+
 
                 }
-     
+
 
             }
+
+           foreach(var x in DictionaryOfUVCoords)
+            {
+                Console.WriteLine(x.Key);
+                Console.WriteLine(x.Value);
+
+            }
+            Console.ReadLine();
             var path2 = @"C:\Program Files\Blender Foundation\Blender\peteriscute2.txt";
 
         }
