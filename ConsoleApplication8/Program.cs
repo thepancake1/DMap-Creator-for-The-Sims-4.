@@ -15,19 +15,20 @@ namespace ConsoleApplication8
             var pathTxtBytes = File.ReadAllText(path);
 
             Dictionary<int, Vector2> DictionaryOfUVCoords = new Dictionary<int, Vector2>();
-            int currentPos = 1;
-            int Index = 0;
+            int currentPos;
+            currentPos = 1;
+            string Index = System.String.Empty;
             string UVCoordsX = System.String.Empty, UVCoordsY = System.String.Empty;
             int lastByteIndex = 90000;
             for (int i = 0; i < pathTxtBytes.Length; i++)
             {
 
-                Console.WriteLine(pathTxtBytes[i]);
-                if(pathTxtBytes[i] == ',')
+                //Console.WriteLine(pathTxtBytes[i]);
+                if(pathTxtBytes[i].ToString() == ",")
                 {
                     
                     currentPos++;
-                    if(DictionaryOfUVCoords.ContainsKey(Index) == false)
+                    if(DictionaryOfUVCoords.ContainsKey(int.Parse(Index)) == false)
                     {
                         //Console.WriteLine(i - lastByteIndex);
                        
@@ -39,9 +40,10 @@ namespace ConsoleApplication8
                         }
                     }
                 }
-                else if (currentPos == 1 || currentPos % 3 == 3)
+                else if (currentPos == 1 || currentPos % 3 == 1)
                 {
-                    Index = pathTxtBytes[i];
+                    Console.WriteLine(currentPos);
+                    Index += pathTxtBytes[i];
                     //Console.WriteLine("Vertex index is " + Index);
                     //Console.WriteLine("Index is " + i);
 
@@ -57,7 +59,7 @@ namespace ConsoleApplication8
 
                 }
 
-                else if (currentPos % 3 == 1)
+                else if (currentPos % 3 == 0)
                 {
                     UVCoordsY += pathTxtBytes[i];
                     //Console.WriteLine(i - lastByteIndex);
@@ -74,8 +76,8 @@ namespace ConsoleApplication8
 
            foreach(var x in DictionaryOfUVCoords)
             {
-                Console.WriteLine(x.Key);
-                Console.WriteLine(x.Value);
+                //Console.WriteLine(x.Key);
+                //Console.WriteLine(x.Value);
 
             }
             Console.ReadLine();
