@@ -11,73 +11,37 @@ namespace ConsoleApplication8
     {
         static void Main(string[] args)
         {
-            var path = @"C:\Program Files\Blender Foundation\Blender\peteriscute.txt";
+            var path = @"C:\Program Files\Blender Foundation\Blender\peteriscute3.txt";
             var pathTxtBytes = File.ReadAllText(path);
 
             Dictionary<int, Vector2> DictionaryOfUVCoords = new Dictionary<int, Vector2>();
-            int currentPos;
-            currentPos = 1;
             string Index = System.String.Empty;
             string UVCoordsX = System.String.Empty, UVCoordsY = System.String.Empty;
-            int lastByteIndex = 90000;
-            for (int i = 0; i < pathTxtBytes.Length; i++)
+
+
+            int counter = 0;
+            string line;
+
+            // Read the file and display it line by line.
+            System.IO.StreamReader file =
+               new System.IO.StreamReader(path);
+            while ((line = file.ReadLine()) != null)
             {
-
-                //Console.WriteLine(pathTxtBytes[i]);
-                if(pathTxtBytes[i].ToString() == ",")
+                //Console.WriteLine(line);
+                var values = line.Split(',');
+                if (DictionaryOfUVCoords.ContainsKey(int.Parse(values[0])) == false)
                 {
-                    
-                    currentPos++;
-                    if(DictionaryOfUVCoords.ContainsKey(int.Parse(Index)) == false)
-                    {
-                        //Console.WriteLine(i - lastByteIndex);
-                       
-                        if (currentPos % 3 == 0 && (i - lastByteIndex) == 10)
-                        {
-                            //Console.WriteLine("Index for Dictionary is " + Index);
-                            //DictionaryOfUVCoords.Add(Index, new Vector2(Convert.ToDouble(UVCoordsX), Convert.ToDouble(UVCoordsY)));
-                            //Console.WriteLine("Adding numbers");
-                        }
-                    }
+                    DictionaryOfUVCoords.Add(int.Parse(values[0]), new Vector2(double.Parse(values[1]), double.Parse(values[2])));
                 }
-                else if (currentPos == 1 || currentPos % 3 == 1)
-                {
-                    Console.WriteLine(currentPos);
-                    Index += pathTxtBytes[i];
-                    //Console.WriteLine("Vertex index is " + Index);
-                    //Console.WriteLine("Index is " + i);
-
-                }
-                else if(currentPos == 2 || currentPos % 3 == 2)
-                {
-                    UVCoordsX += pathTxtBytes[i];
-                    //Console.WriteLine(UVCoordsX);
-
-                    lastByteIndex = i;
-                   // Console.WriteLine("Index is " + i);
-
-
-                }
-
-                else if (currentPos % 3 == 0)
-                {
-                    UVCoordsY += pathTxtBytes[i];
-                    //Console.WriteLine(i - lastByteIndex);
-
-                    //Console.WriteLine(UVCoordsY);
-
-                   // Console.WriteLine("Index is " + i);
-
-
-                }
-
-
+                counter++;
             }
 
-           foreach(var x in DictionaryOfUVCoords)
+            file.Close();
+
+            // Suspend the screen.
+            foreach (var x in DictionaryOfUVCoords)
             {
-                //Console.WriteLine(x.Key);
-                //Console.WriteLine(x.Value);
+                Console.WriteLine(x.Key);
 
             }
             Console.ReadLine();
