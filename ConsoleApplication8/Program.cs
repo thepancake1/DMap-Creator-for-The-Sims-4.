@@ -15,6 +15,7 @@ namespace ConsoleApplication8
             var pathTxtBytes = File.ReadAllText(path);
 
             Dictionary<int, Vector2> DictionaryOfUVCoords = new Dictionary<int, Vector2>();
+            Dictionary<int, Vector3> DictionaryOfVertexLocations = new Dictionary<int, Vector3>();
             string Index = System.String.Empty;
             string UVCoordsX = System.String.Empty, UVCoordsY = System.String.Empty;
 
@@ -39,13 +40,44 @@ namespace ConsoleApplication8
             file.Close();
 
             // Suspend the screen.
-            foreach (var x in DictionaryOfUVCoords)
+            foreach (var x in DictionaryOfVertexLocations)
+            {
+                //Console.WriteLine(x.Key);
+
+            }
+            var path2 = @"C:\Program Files\Blender Foundation\Blender\peteriscute4.txt";
+
+            //Console.ReadLine();
+
+            int counter1 = 0;
+            string line1;
+
+            // Read the file and display it line by line.
+            System.IO.StreamReader file1 =
+               new System.IO.StreamReader(path2);
+            while ((line1 = file1.ReadLine()) != null)
+            {
+                //Console.WriteLine(line);
+                var values = line1.Split(',');
+                for (int i = 0; i < values.Length; i++)
+                {
+                    Console.WriteLine(values[i]);
+                }
+                if (DictionaryOfVertexLocations.ContainsKey(int.Parse(values[0])) == false)
+                {
+                    DictionaryOfVertexLocations.Add(int.Parse(values[0]), new Vector3(double.Parse(values[1]), double.Parse(values[2]), double.Parse(values[3])));
+                }
+                counter1++;
+            }
+            file1.Close();
+
+
+            foreach (var x in DictionaryOfVertexLocations)
             {
                 Console.WriteLine(x.Key);
 
             }
             Console.ReadLine();
-            var path2 = @"C:\Program Files\Blender Foundation\Blender\peteriscute2.txt";
 
         }
 
@@ -57,6 +89,21 @@ namespace ConsoleApplication8
             {
                 x = _x;
                 y = _y;
+
+            }
+
+        }
+
+        public class Vector3
+        {
+            double x;
+            double y;
+            double z;
+            public Vector3(double _x, double _y, double _z)
+            {
+                x = _x;
+                y = _y;
+                z = _z;
 
             }
 
