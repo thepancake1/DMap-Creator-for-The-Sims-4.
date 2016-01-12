@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Drawing;
 
 namespace ConsoleApplication8
 {
@@ -56,15 +57,41 @@ namespace ConsoleApplication8
             {
 
                 CombinedDictionaries2.Add(x.Key, new UVLocationsWithVertexLocs(x.Value.x, x.Value.y, x.Value.z, DictionaryOfUVCoords[x.Key].x, DictionaryOfUVCoords[x.Key].y));
-
+               
                 Console.WriteLine(x.Key);
 
             }
+            
+            foreach(var x in CombinedDictionaries)
+            {
+                var Vector3X = ((Clamp(CombinedDictionaries2[x.Key].V3x - (CombinedDictionaries[x.Key].V3x)))) * 63.5f + 127;
+                var Vector3Y = ((Clamp(CombinedDictionaries2[x.Key].V3y - (CombinedDictionaries[x.Key].V3y)))) * 63.5f + 127;
+                var Vector3Z = ((Clamp(CombinedDictionaries2[x.Key].V3z - (CombinedDictionaries[x.Key].V3z)))) * 63.5f + 127;
+                var Vector2X = Convert.ToInt32(1023 * CombinedDictionaries[x.Key].V2x);
+                var Vector2Y = Convert.ToInt32(1023 * CombinedDictionaries[x.Key].V2y);
+                array[Vector2X, Vector2Y] = new Vector3(Vector3X, Vector3Y, Vector3Z);
+            }
 
+
+            CreateBitmap();
             Console.ReadLine();
 
         }
 
+        public static double Clamp(double x)
+        {
+            if( x > 2)
+            {
+                return 2;
+            }
+            if (x < -2)
+            {
+                return -2;
+            }
+            return x;
+
+        }
+        public static Vector3[,] array = new Vector3[1024, 1024];
         private static void ReadVertices(string path2)
         {
             int counter1 = 0;
@@ -109,11 +136,25 @@ namespace ConsoleApplication8
                 }
                 counter++;
             }
-
-
-
-
             file.Close();
+        }
+
+        public static void CreateBitmap()
+        {
+            System.Drawing.Bitmap flag = new System.Drawing.Bitmap(1023, 1023);
+            for (int x = 0; x < flag.Height; ++x)
+                for (int y = 0; y < flag.Width; ++y)
+                {
+                    if (array[x, y] != null)
+                        {
+                        flag.SetPixel(x, y, Color.FromArgb(Convert.ToInt16(array[x, y].x), Convert.ToInt16(array[x, y].y), Convert.ToInt16(array[x, y].z)));
+//Console.WriteLine("X = " + array[x, y].x);
+                       // Console.WriteLine("Y = " + array[x, y].y);
+                       // Console.WriteLine("Z = " + array[x, y].z);
+
+                    }
+                }
+            flag.Save("howtogetawaywithpeter");
         }
 
         public class Vector2
