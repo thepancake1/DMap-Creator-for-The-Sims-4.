@@ -10,6 +10,8 @@ namespace ConsoleApplication8
 {
     class Program
     {
+       public static Dictionary<Vector2, Vector3> Vertices = new Dictionary<Vector2, Vector3>();
+
         public static Dictionary<int, Vector2> DictionaryOfUVCoords = new Dictionary<int, Vector2>();
        public static Dictionary<int, Vector3> DictionaryOfVertexLocations = new Dictionary<int, Vector3>();
         public static Dictionary<int, UVLocationsWithVertexLocs> CombinedDictionaries = new Dictionary<int, UVLocationsWithVertexLocs>();
@@ -72,7 +74,10 @@ namespace ConsoleApplication8
                // Console.WriteLine("Vector 2x " + Vector2X + "Vector2y " + Vector2Y);
                 if(Vector2X > 0 && Vector2Y > 0)
                 array[Vector2X, Vector2Y] = new Vector3(Vector3X, Vector3Y, Vector3Z);
-            }
+                Vertices[new Vector2(Vector2X, Vector2Y)] = new Vector3(Vector3X, Vector3Y, Vector3Z);
+            
+                    }
+
             //int thingy = 0;
             CreateBitmap();
             Console.ReadLine();
@@ -136,7 +141,6 @@ namespace ConsoleApplication8
             }
             file.Close();
         }
-        
         public static void CreateBitmap()
         {
             System.Drawing.Bitmap flag = new System.Drawing.Bitmap(1024, 1024);
@@ -149,9 +153,9 @@ namespace ConsoleApplication8
                         Console.WriteLine("X = " + array[x, y].x);
                         Console.WriteLine("Y = " + array[x, y].y);
                         Console.WriteLine("Z = " + array[x, y].z);
-
                     }
-                }
+                 
+                            }
             flag.Save("howtogetawaywithpeter");
         }
 
