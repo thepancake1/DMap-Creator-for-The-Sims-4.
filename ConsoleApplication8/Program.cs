@@ -66,15 +66,17 @@ namespace ConsoleApplication8
             Console.WriteLine("Combined Dictionaries Count is " + CombinedDictionaries.Count);
             foreach(var x in CombinedDictionaries)
             {
-                var Vector3X = ((Clamp(CombinedDictionaries2[x.Key].V3x - (CombinedDictionaries[x.Key].V3x)))) * 1280 + 127;
-                var Vector3Y = ((Clamp(CombinedDictionaries2[x.Key].V3y - (CombinedDictionaries[x.Key].V3y)))) * 1280 + 127;
-                var Vector3Z = ((Clamp(CombinedDictionaries2[x.Key].V3z - (CombinedDictionaries[x.Key].V3z)))) * 1280 + 127;
+                var Vector3X = ((Clamp(CombinedDictionaries2[x.Key].V3x - (CombinedDictionaries[x.Key].V3x)))) * 635 + 127;
+                var Vector3Y = ((Clamp(CombinedDictionaries2[x.Key].V3y - (CombinedDictionaries[x.Key].V3y)))) * 635 + 127;
+                var Vector3Z = ((Clamp(CombinedDictionaries2[x.Key].V3z - (CombinedDictionaries[x.Key].V3z)))) * 635 + 127;
                 var Vector2X = Convert.ToInt32(1023 * CombinedDictionaries[x.Key].V2x);
                 var Vector2Y = Convert.ToInt32(1023 * CombinedDictionaries[x.Key].V2y);
-               // Console.WriteLine("Vector 2x " + Vector2X + "Vector2y " + Vector2Y);
-                if(Vector2X > 0 && Vector2Y > 0)
-                array[Vector2X, Vector2Y] = new Vector3(Vector3X, Vector3Y, Vector3Z);
-                Vertices[new Vector2(Vector2X, Vector2Y)] = new Vector3(Vector3X, Vector3Y, Vector3Z);
+                // Console.WriteLine("Vector 2x " + Vector2X + "Vector2y " + Vector2Y);
+                if (Vector2X > 0 && Vector2Y > 0)
+                {
+                    array[Vector2X, Vector2Y] = new Vector3(Vector3X, Vector3Y, Vector3Z);
+                    Vertices[new Vector2(Vector2X, Vector2Y)] = new Vector3(Vector3X, Vector3Y, Vector3Z);
+                }
             
                     }
 
@@ -90,7 +92,7 @@ namespace ConsoleApplication8
             {
                 return 0.2;
             }
-            if (x < -2)
+            if (x < -0.2)
             {
                 return -0.2;
             }
